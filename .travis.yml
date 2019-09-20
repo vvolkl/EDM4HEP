@@ -41,7 +41,7 @@ install:
 script:
   - docker run -ti --name CI_container -v $PKGDIR:/EDM4HEP -e COMPILER_TYPE=$COMPILER -v /cvmfs/sft.cern.ch:/cvmfs/sft.cern.ch -d cern/cc7-base /bin/bash
   - docker exec -ti CI_container /bin/bash -c "yum install which make glibc-devel -y"
-  - docker exec -ti CI_container /bin/bash -c "ls"
+  - docker exec -ti CI_container /bin/bash -c "ls /cvmfs/fcc.cern.ch"
   - docker exec -ti CI_container /bin/bash -c "cat /EDM4HEP/.edm4hep-ci.d/compile_and_test.sh"
   - docker exec -ti CI_container  /bin/bash -c "/EDM4HEP/.edm4hep-ci.d/compile_and_test.sh"
 
