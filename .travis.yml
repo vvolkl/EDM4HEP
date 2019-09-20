@@ -40,9 +40,7 @@ install:
 # command to run tests
 script:
   - docker run -ti --name CI_container -v $PKGDIR:/EDM4HEP -e COMPILER_TYPE=$COMPILER -v /cvmfs/sft.cern.ch:/cvmfs/sft.cern.ch -d cern/cc7-base /bin/bash
-  - docker exec -ti CI_container  -v /cvmfs/sft.cern.ch:/cvmfs/sft.cern.ch -v /cvmfs/fcc.cern.ch:/cvmfs/fcc.cern.ch /bin/bash -c "ls /cvmfs/fcc.cern.ch"
-  - docker exec -ti CI_container /bin/bash -c "cat /EDM4HEP/.edm4hep-ci.d/compile_and_test.sh"
-  - docker exec -ti CI_container  -v /cvmfs/sft.cern.ch:/cvmfs/sft.cern.ch -v /cvmfs/fcc.cern.ch:/cvmfs/fcc.cern.ch  /bin/bash -c "/EDM4HEP/.edm4hep-ci.d/compile_and_test.sh"
+  - docker run -ti CI_container  -v /cvmfs/sft.cern.ch:/cvmfs/sft.cern.ch -v /cvmfs/fcc.cern.ch:/cvmfs/fcc.cern.ch  /bin/bash -c "/EDM4HEP/.edm4hep-ci.d/compile_and_test.sh"
 
 # Don't send e-mail notifications
 notifications:
