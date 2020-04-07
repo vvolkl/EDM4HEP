@@ -51,8 +51,8 @@ install:
 
 # command to run tests
 script:
-  - docker run -ti --name CI_CONTAINER -v $PKGDIR:/workspace -e COMPILER_TYPE=$COMPILER -e LCG_RELEASE=${LCG_RELEASE} -e STANDARD=${STANDARD} -e COMPILER_VERSION=${COMPILER_VERSION} ${CVMFS_REPOS} -d clicdp/cc7-lcg bash 
-  - docker exec -ti CI_CONTAINER  /bin/bash -c "cd /workspace; pwd; ls;  ./.edm4hep-ci.d/compile_and_test.sh"
+  - docker run -ti --name CI_CONTAINER -v $PKGDIR:/workspace/edm4hep -e COMPILER_TYPE=$COMPILER -e LCG_RELEASE=${LCG_RELEASE} -e STANDARD=${STANDARD} -e COMPILER_VERSION=${COMPILER_VERSION} ${CVMFS_REPOS} -d clicdp/cc7-lcg bash 
+  - docker exec -ti CI_CONTAINER  /bin/bash -c "cd /workspace/edrm4hep; pwd; ls;  ./.edm4hep-ci.d/compile_and_test.sh"
 
 
 after_success:
@@ -60,7 +60,7 @@ after_success:
   - >-
     if [[ "$TRAVIS_BRANCH" = "master" && "$TRAVIS_PULL_REQUEST" = "false" ]] ; then
 
-       cd ${PKGDIR}; docker exec -ti CI_CONTAINER  /bin/bash -c "cd /workspace; source init.sh; cd build; ninja  doc" && ./.edm4hep-ci.d/generateDocumentation.sh || travis_terminate 1
+       cd ${PKGDIR}; docker exec -ti CI_CONTAINER  /bin/bash -c "cd /workspace/edm4hep; source init.sh; cd build; ninja  doc" && ./.edm4hep-ci.d/generateDocumentation.sh || travis_terminate 1
     fi
 
 # Don't send e-mail notifications
