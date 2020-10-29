@@ -3,6 +3,10 @@
 
 #include <iostream>
 
+#include "Pythia.h"
+#include "Pythia8Plugins/CombineMatchingInput.h"
+#include "Pythia8Plugins/EvtGen.h"
+
 #include "DelphesInputReader.h"
 
 #include "TObjArray.h"
@@ -19,8 +23,6 @@
 #include "modules/Delphes.h"
 #include "ExRootAnalysis/ExRootTreeWriter.h"
 
-#include "Pythia.h"
-#include "Pythia8Plugins/CombineMatchingInput.h"
 
 #include <iostream>
 
