@@ -55,7 +55,7 @@ DelphesEDM4HepConverter::DelphesEDM4HepConverter(ExRootConfParam /*const*/& bran
     {"Electron", &DelphesEDM4HepConverter::processMuonsElectrons}};
 
   for (const auto& branch : m_branches) {
-    if (contains(outputSettings.GenParticleCollections, branch.className.c_str())) {
+    if (contains(outputSettings.GenParticleCollections, branch.name.c_str())) {
       registerCollection<edm4hep::MCParticleCollection>(branch.name);
       m_processFunctions.emplace(branch.name, &DelphesEDM4HepConverter::processParticles);
     }
@@ -139,8 +139,7 @@ void DelphesEDM4HepConverter::processParticles(const TObjArray* delphesCollectio
         (float) delphesCand->Position.Y(),
         (float) delphesCand->Position.Z()});
     cand.setPDG(delphesCand->PID); // delphes uses whatever hepevt.idhep provides
-    // TODO: - status
-    // TODO: - ...
+    cand.setGeneratorStatus(delphesCand->Status);
 
     if (const auto [it, inserted] = m_genParticleIds.emplace(delphesCand->GetUniqueID(), cand); !inserted) {
       std::cerr << "**** WARNING: UniqueID " << delphesCand->GetUniqueID() << " is already used by MCParticle with id: " << it->second.id() << std::endl;
@@ -183,6 +182,7 @@ void DelphesEDM4HepConverter::processTracks(const TObjArray* delphesCollection, 
 
     auto cand = particleCollection->create();
     cand.setCharge(delphesCand->Charge);
+    cand.setEnergy(delphesCand->Momentum.E());
     cand.setMomentum({(float) delphesCand->Momentum.Px(),
                       (float) delphesCand->Momentum.Py(),
                       (float) delphesCand->Momentum.Pz()});
@@ -260,6 +260,7 @@ void DelphesEDM4HepConverter::processJets(const TObjArray* delphesCollection, st
     // NOTE: Filling the jet with the information delievered by Delphes, which
     // is not necessarily the same as the sum of its constituents (filled below)
     jet.setCharge(delphesCand->Charge);
+    jet.setEnergy(delphesCand->Momentum.E());
     jet.setMomentum({(float) delphesCand->Momentum.Px(),
                      (float) delphesCand->Momentum.Py(),
                      (float) delphesCand->Momentum.Pz()});

@@ -4,11 +4,11 @@ find_package(Delphes)
 
 add_library(DelphesEDM4HepConverter SHARED DelphesEDM4HepConverter.cc)
 target_include_directories(DelphesEDM4HepConverter SYSTEM PUBLIC ${DELPHES_INCLUDE_DIRS})
-target_link_libraries(DelphesEDM4HepConverter edm4hep ${DELPHES_LIBRARY} podio::podioRootIO ROOT::MathCore ROOT::EG)
+target_link_libraries(DelphesEDM4HepConverter edm4hep ${DELPHES_LIBRARY} podio::podioRootIO ROOT::MathCore ROOT::EG ROOT::Physics)
 set_target_properties(DelphesEDM4HepConverter PROPERTIES PUBLIC_HEADER "DelphesEDM4HepConverter.h;Delphes.h")
 install(TARGETS DelphesEDM4HepConverter 
         EXPORT EDM4HEPTargets
-        LIBRARY DESTINATION lib
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         PUBLIC_HEADER DESTINATION include/edm4hep
         COMPONENT dev)
 
