@@ -49,7 +49,7 @@ namespace utils {
      *
      * @returns the dimension of the covariance matrix
      */
-    consteval std::size_t get_cov_dim(std::size_t N) {
+     inline std::size_t get_cov_dim(std::size_t N) {
       switch (N) {
       case 21:
         return 6;
@@ -88,11 +88,11 @@ namespace utils {
   } // namespace detail
 
   template <typename DimEnum, typename Scalar, std::size_t N>
-  constexpr Scalar get_cov_value(const std::array<Scalar, N>& cov, DimEnum dimI, DimEnum dimJ) {
+  Scalar get_cov_value(const std::array<Scalar, N>& cov, DimEnum dimI, DimEnum dimJ) {
     const auto i = detail::to_index(dimI);
     const auto j = detail::to_index(dimJ);
 
-    constexpr auto dim = detail::get_cov_dim(N);
+    auto dim = detail::get_cov_dim(N);
     if (i < 0 || j < 0 || i >= dim || j >= dim) {
       throw std::invalid_argument("The covariance matrix dimensions (" + std::to_string(dim) +
                                   ") and the passed dimensions are not compatible (dimI = " + std::to_string(i) +
@@ -103,11 +103,11 @@ namespace utils {
   }
 
   template <typename DimEnum, typename Scalar, std::size_t N>
-  constexpr void set_cov_value(Scalar value, std::array<Scalar, N>& cov, DimEnum dimI, DimEnum dimJ) {
+  void set_cov_value(Scalar value, std::array<Scalar, N>& cov, DimEnum dimI, DimEnum dimJ) {
     auto i = detail::to_index(dimI);
     auto j = detail::to_index(dimJ);
 
-    constexpr auto dim = detail::get_cov_dim(N);
+    auto dim = detail::get_cov_dim(N);
     if (i < 0 || j < 0 || i >= dim || j >= dim) {
       throw std::invalid_argument("The covariance matrix dimensions (" + std::to_string(dim) +
                                   ") and the passed dimensions are not compatible (dimI = " + std::to_string(i) +
